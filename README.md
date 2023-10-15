@@ -113,3 +113,29 @@ class Customer
 görüldüğü üzere Customer sadece bir entity olarak tasarlanan modeldir. İşlevi sadece bu olması gereken Customer sınıfı içerisinde ayriyetten data annotation sayesinde validasyon ayarlaması yapılmıştır. Buda SOLID prensiplerinden Tek Sorumluluk Prensibi(Single Responsibility Principle – SRP)‘ne aykırıdır! İşte bu durumda prensibe uygun validasyonel yapılanma inşa edebilmek için tüm sorumluluğu tek bir sınıfın üstleneceği bir stratejiyi benimsememiz gerekmektedir ve bunun içinde en kullanışlı tasarıma sahip kütüphane olan FluentValidation’ı tercih etmekteyiz.
 
 Entity Framework(Core) ile tercih edilen Data Annotation validasyonları Tek Sorumluluk Prensibi(Single Responsibility Principle – SRP)‘ne aykırıdır!
+
+### IEnumerable ve IQueryable
+ IEnumerable: IEnumerable tipi veriyi önce belleğe atıp ardından bellekteki bu veri üzerinden belirtilen koşulları çalıştırır ve veriye uygular.
+ IQueryable: IQueryable tipinde ise belirtilen sorgular direk olarak server üzerinde çalıştırılır ve dönüş sağlar. Ayrıca bu tip IEnumerable tipini implement ettiği için IEnumerable’ın tüm özelliklerini kullanabilir.
+
+ Aslında açıklamalara bakacak olursak ikisi arasındaki farkı çok rahat görebiliriz. IQueryable bize database vb. veri depolarında yapılan sorgulamalar da işlevsellik sağlarken, IEnumerable ise bize bir koleksiyon üzerinde sorgulama yapmak için olanak sağlar.
+
+ Gerçek hayat kullanımına dair bir örnek üzerinden ilerlersek elimizde çok büyük bir kayır olduğunu düşünelim. Örnek veriyorum 1 milyon kaydımız var ve biz burada bir sorgu yapmak istiyoruz. Şart olarak ise PaymentStatus=true verdiğimizi düşünelim.
+
+IEnumerable mantığı üzerinden gidersek 1 milyon veri öncelikle belleğe alır ve ardından sorgumuzu uygular. Biraz daha açacak olursak bellek öncelikle IEnumerable için yer açıyor ve datayı buraya alıyor. Daha sonra şartımız where komutu ile burada sorgulanıyor.
+
+IQueryable ise öncelikle belirtiğimiz koşula göre bir sorgu uygulayıp bunula database’e gidiyor gerekli verileri aldıktan sonra bize dönüş sağlıyor.
+
+
+Differences:
+IEnumerable
+* Enumerable exists in the System.Collections namespace.
+* IEnumerable is suitable for querying data from in-memory collections like List, Array and so on.
+* While querying data from the database, IEnumerable executes "select query" on the server-side, loads data in-memory on the client-side and then filters the data.
+* IEnumerable is beneficial for LINQ to Object and LINQ to XML queries.
+IQueryable
+* IQueryable exists in the System.Linq Namespace.
+* IQueryable is suitable for querying data from out-memory (like remote database, service) collections.
+* While querying data from a database, IQueryable executes a "select query" on server-side with all filters.
+* IQueryable is beneficial for LINQ to SQL queries.
+
