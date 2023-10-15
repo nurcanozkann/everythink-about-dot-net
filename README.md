@@ -128,11 +128,13 @@ IQueryable ise öncelikle belirtiğimiz koşula göre bir sorgu uygulayıp bunul
 
 
 Differences:
+
 IEnumerable
 * Enumerable exists in the System.Collections namespace.
 * IEnumerable is suitable for querying data from in-memory collections like List, Array and so on.
 * While querying data from the database, IEnumerable executes "select query" on the server-side, loads data in-memory on the client-side and then filters the data.
 * IEnumerable is beneficial for LINQ to Object and LINQ to XML queries.
+
 IQueryable
 * IQueryable exists in the System.Linq Namespace.
 * IQueryable is suitable for querying data from out-memory (like remote database, service) collections.
